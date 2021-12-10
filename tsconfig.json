@@ -7,8 +7,6 @@
     "sourceMap": true,
     "outDir": "dist",
     "types": [ "node" ],
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
   },
   "lib": ["es2015"]
 }
