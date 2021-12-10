@@ -20,6 +20,19 @@ export const update = async (id: number, payload: Partial<SensorInput>): Promise
     return updatedSensor
 }
 
+export const createOrUpdate = async (payload: SensorInput): Promise<SensorOuput> => {
+    const sensor = await Sensor.findByPk(payload.id);
+
+    let newSensor;
+
+    if (!sensor) {
+        newSensor = await Sensor.create(payload);
+    } else {
+        newSensor = await (sensor as Sensor).update(payload);
+    }
+    return newSensor;
+}
+
 export const getById = async (id: number): Promise<SensorOuput> => {
     const sensor = await Sensor.findByPk(id)
     if (!sensor) {

@@ -6,14 +6,28 @@ const dbUser = process.env.DB_USER as string
 const dbDriver = process.env.DB_DRIVER as Dialect
 const dbPassword = process.env.DB_PASSWORD as string
 
-const sequelizeConnection = new Sequelize(
-  dbName, 
-  dbUser, 
-  dbPassword,
-  {
-    dialect: dbDriver,
-    storage: ':memory:',
-  }
-);
+const isDev = process.env.NODE_ENV === 'development';
+
+let sequelizeConnection;
+if (!isDev) {
+  sequelizeConnection = new Sequelize(
+    dbName, 
+    dbUser, 
+    dbPassword,
+    {
+      dialect: dbDriver,
+      storage: ':memory:',
+    }
+  );
+} else {
+  sequelizeConnection = new Sequelize(
+    {
+      dialect: "sqlite",
+      storage: './database.sqlite',
+      logging: false
+    }
+  );
+}
+
 
 export default sequelizeConnection;

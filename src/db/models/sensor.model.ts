@@ -2,8 +2,10 @@ import sequelizeConnection from '../config.db';
 import { DataTypes, Model, Optional } from 'sequelize';
 
 interface SensorAttributes {
-  id: number;
-  location: string;
+  id: string;
+  latitude: number;
+  longitude: number;
+  temperature: number;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
@@ -12,8 +14,10 @@ export interface SensorInput extends Optional<SensorAttributes, 'id'> {}
 export interface SensorOuput extends Required<SensorAttributes> {}
 
 class Sensor extends Model<SensorAttributes, SensorInput> implements SensorAttributes {
-  public id!: number
-  public location: string;
+  id: string;
+  latitude: number;
+  longitude: number;
+  temperature: number;
 
   // timestamps!
   public readonly createdAt!: Date;
@@ -23,12 +27,19 @@ class Sensor extends Model<SensorAttributes, SensorInput> implements SensorAttri
   
 Sensor.init({
   id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    autoIncrement: true,
+    type: DataTypes.STRING,
     primaryKey: true,
   },
-  location: {
-    type: DataTypes.STRING,
+  latitude: {
+    type: DataTypes.NUMBER,
+    allowNull: false
+  },
+  longitude: {
+    type: DataTypes.NUMBER,
+    allowNull: false
+  },
+  temperature: {
+    type: DataTypes.NUMBER,
     allowNull: false
   },
 }, {

@@ -8,9 +8,13 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// db
+import db from './db/init.db';
+db()
+
 // Controllers
 import sensorController from "./controllers/sensor.controller";
-app.use('/sensor', sensorController);
+app.use('/sensors', sensorController);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Bonjour le monde !!!');

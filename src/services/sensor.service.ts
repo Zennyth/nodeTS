@@ -6,6 +6,11 @@ import {SensorInput, SensorOuput} from '../db/models/sensor.model';
 export const create = (payload: SensorInput): Promise<SensorOuput> => {
     return sensorDal.create(payload)
 }
+
+export const createOrUpdate = (payload: SensorInput): Promise<SensorOuput> => {
+    return sensorDal.createOrUpdate(payload)
+}
+
 export const update = (id: number, payload: Partial<SensorInput>): Promise<SensorOuput> => {
     return sensorDal.update(id, payload)
 }
