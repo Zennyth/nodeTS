@@ -1,17 +1,21 @@
 import 'dotenv/config';
-import express from 'express';
+import express, { Application, Request, Response } from 'express';
 
-const app = express();
-const port = 3000;
+const app: Application = express();
+const port = process.env.PORT || 3000;
+
+// Body parsing Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Controllers
-import exampleController from "./controllers/exampe.controller";
-app.use('/example', exampleController);
+import sensorController from "./controllers/sensor.controller";
+app.use('/sensor', sensorController);
 
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
   res.send('Bonjour le monde !!!');
 });
 
 app.listen(port, () => {
-  return console.log(`server is listening on ${port}`);
+  return console.log(`server is listening on http://localhost:${port}`);
 });
