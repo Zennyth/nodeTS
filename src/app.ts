@@ -9,17 +9,27 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // db
-import db from './db/init.db';
-db()
+import init from './db/init.db';
+init();
 
-// Controllers
-import sensorController from "./controllers/sensor.controller";
-app.use('/sensors', sensorController);
-
+// view
 app.get('/', (req: Request, res: Response) => {
   res.send('Bonjour le monde !!!');
 });
 
-app.listen(port, () => {
+// docs
+import {initSwagger} from "./swagger";
+initSwagger(app, port);
+
+// routes
+import routes from "./routes/";
+app.use('/api', routes);
+
+// modules
+import {initWS} from "./modules/websocket.module";
+const server = require('http').createServer(app);
+initWS(server);
+
+server.listen(port, () => {
   return console.log(`server is listening on http://localhost:${port}`);
 });

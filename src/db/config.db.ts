@@ -16,14 +16,13 @@ if (!isDev) {
     dbPassword,
     {
       dialect: dbDriver,
-      storage: ':memory:',
     }
   );
 } else {
   sequelizeConnection = new Sequelize(
     {
       dialect: "sqlite",
-      storage: './database.sqlite',
+      storage: './src/db/storage/database.sqlite',
       logging: false
     }
   );

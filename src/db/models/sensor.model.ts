@@ -13,6 +13,14 @@ interface SensorAttributes {
 export interface SensorInput extends Optional<SensorAttributes, 'id'> {}
 export interface SensorOuput extends Required<SensorAttributes> {}
 
+
+/**
+ * @typedef Sensor
+ * @property {string} id.required - - eg: 748f5019-032a-4606-8751-3ea7e39ca52b
+ * @property {number} latitude.required - - eg: 45.764043
+ * @property {number} longitude.required - - eg: 4.835659
+ * @property {number} temperature.required - - eg: 30.2
+ */
 class Sensor extends Model<SensorAttributes, SensorInput> implements SensorAttributes {
   id: string;
   latitude: number;

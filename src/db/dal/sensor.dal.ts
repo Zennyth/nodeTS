@@ -10,7 +10,7 @@ export const create = async (payload: SensorInput): Promise<SensorOuput> => {
     return sensor
 }
 
-export const update = async (id: number, payload: Partial<SensorInput>): Promise<SensorOuput> => {
+export const update = async (id: string, payload: Partial<SensorInput>): Promise<SensorOuput> => {
     const sensor = await Sensor.findByPk(id)
     if (!sensor) {
         // @todo throw custom error
@@ -33,7 +33,7 @@ export const createOrUpdate = async (payload: SensorInput): Promise<SensorOuput>
     return newSensor;
 }
 
-export const getById = async (id: number): Promise<SensorOuput> => {
+export const getById = async (id: string): Promise<SensorOuput> => {
     const sensor = await Sensor.findByPk(id)
     if (!sensor) {
         // @todo throw custom error
@@ -42,7 +42,7 @@ export const getById = async (id: number): Promise<SensorOuput> => {
     return sensor;
 }
 
-export const deleteById = async (id: number): Promise<boolean> => {
+export const deleteById = async (id: string): Promise<boolean> => {
     const deletedSensorCount = await Sensor.destroy({
         where: {id}
     })
