@@ -8,7 +8,7 @@ const dbPassword = process.env.DB_PASSWORD as string
 
 const isDev = process.env.NODE_ENV === 'development';
 
-let sequelizeConnection;
+let sequelizeConnection: Sequelize;
 if (!isDev) {
   sequelizeConnection = new Sequelize(
     dbName, 
