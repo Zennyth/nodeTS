@@ -5,6 +5,7 @@ import {CreateStationDTO} from '../db/dto/station.dto';
 
 import {emitEvent} from "../modules/websocket.module";
 import { Emergency, Station } from '../db/models';
+import { grantAccess, Roles } from '../middlewares/access.middleware';
 
 const router = Router();
 
@@ -53,7 +54,7 @@ router.get('/:id', async (req: Request, res: Response) => {
  * @returns {Array.<Station>} 200 - Updated or created Stations
  * @returns {Error}  default - Unexpected error
  */
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', grantAccess(Roles.API_W), async (req: Request, res: Response) => {
   try {
     let result;
 

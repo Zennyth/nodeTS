@@ -4,7 +4,8 @@ import {getAll, createOrUpdate, getById, createOrUpdateRange, } from "../service
 import {CreateSensorDTO} from '../db/dto/sensor.dto';
 
 import {emitEvent} from "../modules/websocket.module";
-import { Emergency, Sensor } from '../db/models';
+
+import { grantAccess, Roles } from '../middlewares/access.middleware';
 
 const router = Router();
 
@@ -53,7 +54,7 @@ router.get('/:id', async (req: Request, res: Response) => {
  * @returns {Array.<Sensor>} 200 - Update or create a Sensor
  * @returns {Error}  default - Unexpected error
  */
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', grantAccess(Roles.API_W), async (req: Request, res: Response) => {
   try {
     let result: CreateSensorDTO[];
 

@@ -5,6 +5,7 @@ import {CreateTeamDTO} from '../db/dto/team.dto';
 
 import {emitEvent} from "../modules/websocket.module";
 import { Emergency, Team } from '../db/models';
+import { grantAccess, Roles } from '../middlewares/access.middleware';
 
 const router = Router();
 
@@ -53,7 +54,7 @@ router.get('/:id', async (req: Request, res: Response) => {
  * @returns {Array.<Team>} 200 - Updated or created Teams
  * @returns {Error}  default - Unexpected error
  */
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', grantAccess(Roles.API_W), async (req: Request, res: Response) => {
   try {
     let result;
 
