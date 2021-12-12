@@ -1,5 +1,6 @@
 import sequelizeConnection from '../config.db';
-import { DataTypes, Model, Optional } from 'sequelize';
+import { Association, DataTypes, HasManyAddAssociationMixin, HasManyCountAssociationsMixin, HasManyCreateAssociationMixin, HasManyGetAssociationsMixin, HasManyHasAssociationMixin, Model, Optional } from 'sequelize';
+import { Sensor, Team } from '.';
 
 interface EmergencyAttributes {
   id: string;
@@ -32,6 +33,30 @@ class Emergency extends Model<EmergencyAttributes, EmergencyInput> implements Em
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public readonly deletedAt!: Date;
+
+  // associations
+
+  // sensors
+  public getSensors!: HasManyGetAssociationsMixin<Sensor>; // Note the null assertions!
+  public addSensor!: HasManyAddAssociationMixin<Sensor, string>;
+  public hasSensor!: HasManyHasAssociationMixin<Sensor, string>;
+  public countSensors!: HasManyCountAssociationsMixin;
+  public createSensor!: HasManyCreateAssociationMixin<Sensor>;
+  public readonly sensors?: Sensor[]; // Note this is optional since it's only populated when explicitly requested in code
+
+  // teams
+  public getTeams!: HasManyGetAssociationsMixin<Team>; // Note the null assertions!
+  public addTeams!: HasManyAddAssociationMixin<Team, string>;
+  public hasTeams!: HasManyHasAssociationMixin<Team, string>;
+  public countTeams!: HasManyCountAssociationsMixin;
+  public createTeams!: HasManyCreateAssociationMixin<Team>;
+  public readonly teams?: Team[];
+
+
+  public static associations: {
+    sensors: Association<Emergency, Sensor>,
+    teams: Association<Emergency, Team>,
+  };
 }
   
 Emergency.init({

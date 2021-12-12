@@ -1,36 +1,40 @@
 import sequelizeConnection from '../config.db';
 import { DataTypes, Model, Optional } from 'sequelize';
 
-interface SensorAttributes {
+interface TeamAttributes {
   id: string;
   latitude: number;
   longitude: number;
-  intensity: number;
-  radius: number;
+  level: number;
+  isHandlingEmergency: boolean;
+  stationId: string;
   emergencyId?: string;
   
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
 }
-export interface SensorInput extends Optional<SensorAttributes, 'id'> {}
-export interface SensorOuput extends Required<SensorAttributes> {}
+export interface TeamInput extends Optional<TeamAttributes, 'id'> {}
+export interface TeamOuput extends Required<TeamAttributes> {}
 
 
 /**
- * @typedef Sensor
- * @property {string} id.required - - eg: 748f5019-032a-4606-8751-3ea7e39ca52b
+ * @typedef Team
+ * @property {string} id.required - - eg: fd297b1c-dfa0-4bcb-8a86-266bbbe00371
  * @property {number} latitude.required - - eg: 45.764043
  * @property {number} longitude.required - - eg: 4.835659
- * @property {number} intensity.required - - eg: 50
- * @property {number} radius.required - - eg: 50
+ * @property {number} level.required - - eg: 3
+ * @property {boolean} isHandlingEmergency.required - - eg: false
+ * @property {string} stationId.required - - eg: fd297b1c-dfa0-4bcb-8a86-266bbbe00371
+ * @property {string} emergencyId - - eg: fd297b1c-dfa0-4bcb-8a86-266bbbe00371
  */
-class Sensor extends Model<SensorAttributes, SensorInput> implements SensorAttributes {
+class Team extends Model<TeamAttributes, TeamInput> implements TeamAttributes {
   id: string;
   latitude: number;
   longitude: number;
-  intensity: number;
-  radius: number;
+  level: number;
+  isHandlingEmergency: boolean;
+  stationId!: string;
   emergencyId!: string;
 
   // timestamps!
@@ -39,7 +43,7 @@ class Sensor extends Model<SensorAttributes, SensorInput> implements SensorAttri
   public readonly deletedAt!: Date;
 }
   
-Sensor.init({
+Team.init({
   id: {
     type: DataTypes.STRING,
     primaryKey: true,
@@ -52,13 +56,17 @@ Sensor.init({
     type: DataTypes.NUMBER,
     allowNull: false
   },
-  intensity: {
+  level: {
     type: DataTypes.NUMBER,
     allowNull: false
   },
-  radius: {
-    type: DataTypes.NUMBER,
+  isHandlingEmergency: {
+    type: DataTypes.BOOLEAN,
     allowNull: false
+  },
+  stationId: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   emergencyId: {
     type: DataTypes.STRING,
@@ -70,4 +78,4 @@ Sensor.init({
   paranoid: true,
 });
   
-export default Sensor;
+export default Team;

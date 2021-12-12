@@ -8,8 +8,10 @@ export default {
     updateSensors(state, sensors) {
       state.sensors = sensors || {};
     },
-    SOCKET_onUpdateSensor(state, updatedSensor) {
-      Vue.set(state.sensors, updatedSensor.id, updatedSensor);
+    SOCKET_onUpdateSensor(state, updatedSensors) {
+      updatedSensors.forEach(updatedSensor => {
+        Vue.set(state.sensors, updatedSensor.id, updatedSensor);
+      })
     },
   },
   actions: { 

@@ -1,6 +1,6 @@
 import {Router, Request, Response} from 'express';
 
-import {getAll, createOrUpdate, getById, } from "../services/sensor.service";
+import {getAll, createOrUpdate, getById, createOrUpdateRange, } from "../services/sensor.service";
 import {CreateSensorDTO} from '../db/dto/sensor.dto';
 
 import {emitEvent} from "../modules/websocket.module";
@@ -47,20 +47,23 @@ router.get('/:id', async (req: Request, res: Response) => {
 
 /**
  * Update or create a Sensor
- * @route POST /api/sensors/{id}
+ * @route POST /api/sensors/
  * @group Sensors - Operation about sensors
- * @param {string} id.query.required
  * @param {string} sensor.body.required
  * @returns {Sensor} 200 - Update or create a Sensor
  * @returns {Error}  default - Unexpected error
  */
-router.post('/:id', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
   try {
-    const payload:CreateSensorDTO = req.body;
-    const result = await createOrUpdate(payload);
-    
-    const test = await Sensor.findAll({ include: [Emergency], raw: true});
-    console.log(test);
+    let result;
+
+    if (Array.isArray(req.body)) {
+      const payload:CreateSensorDTO[] = req.body;
+      result = await createOrUpdateRange(payload);
+    } else {
+      const payload:CreateSensorDTO = req.body;
+      result = [await createOrUpdate(payload)];
+    }
 
     emitEvent("onUpdateSensor", result);
 

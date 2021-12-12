@@ -3,6 +3,7 @@ import {Op} from 'sequelize';
 import {Emergency} from '../models';
 import {GetAllEmergenciesFilters} from './types.dal';
 import {EmergencyInput, EmergencyOuput} from '../models/emergency.model';
+import { SensorOuput } from '../models/sensor.model';
 
 
 export const create = async (payload: EmergencyInput): Promise<EmergencyOuput> => {
@@ -56,4 +57,12 @@ export const getAll = async (filters?: GetAllEmergenciesFilters): Promise<Emerge
         },
         ...((filters?.isDeleted || filters?.includeDeleted) && {paranoid: true})
     })
+}
+
+export const getSensors = async (id: string): Promise<SensorOuput[]> => {
+  const emergency = await Emergency.findByPk(id, {
+    include: [Emergency.associations.sensors],
+    rejectOnEmpty: true,
+  });
+  return emergency.getSensors();
 }

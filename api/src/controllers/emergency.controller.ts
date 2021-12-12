@@ -4,6 +4,8 @@ import {getAll, createOrUpdate, getById, } from "../services/emergency.service";
 import {CreateEmergencyDTO} from '../db/dto/emergency.dto';
 
 import {emitEvent} from "../modules/websocket.module";
+import { Emergency, Sensor } from '../db/models';
+import { getSensors } from '../db/dal/emergency.dal';
 
 const router = Router();
 
@@ -35,8 +37,8 @@ router.get('/', async (req: Request, res: Response) => {
  */
 router.get('/:id', async (req: Request, res: Response) => {
   try {
-    const sensor = await getById(req.params.id);
-    res.status(200).send(sensor);
+    const emergency = await getById(req.params.id);
+    res.status(200).send(emergency);
   } catch (error) {
     res.status(400).send({
       error
@@ -45,28 +47,53 @@ router.get('/:id', async (req: Request, res: Response) => {
 });
 
 /**
- * Update or create a Emergency
- * @route POST /api/emergencies/{id}
+ * Update or create an Emergency
+ * @route POST /api/emergencies/
  * @group Emergencies - Operation about emergencies
- * @param {string} id.query.required
  * @param {string} sensor.body.required
- * @returns {Emergency} 200 - Update or create a Emergency
+ * @returns {Emergency} 200 - Update or create an Emergency
  * @returns {Error}  default - Unexpected error
  */
-router.post('/:id', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
   try {
     const payload:CreateEmergencyDTO = req.body;
-    const result = await createOrUpdate(payload);
+    const emergency = await createOrUpdate(payload);
 
-    emitEvent("onUpdateEmergency", result);
-    console.log(result);
+    emitEvent("onUpdateEmergency", emergency);
 
-    return res.status(200).send(result);
+    return res.status(200).send(emergency);
   } catch (error) {
     res.status(400).send({
       error
     })
   }
 });
+
+/**
+ * Get all sensors from emergency
+ * @route GET /api/emergencies/{id}/sensors
+ * @group Emergencies - Operation about emergencies
+ * @param {string} id.query.required
+ * @returns {Emergency} 200 - Get all sensors from emergency
+ * @returns {Error}  default - Unexpected error
+ */
+ router.get('/:id/sensors', async (req: Request, res: Response) => {
+  try {
+    const sensors = await getSensors(req.params.id);
+    res.status(200).send(sensors);
+  } catch (error) {
+    res.status(400).send({
+      error
+    })
+  }
+});
+
+/*
+const emergency = await Emergency.findByPk(result.id, {
+      include: [Emergency.associations.sensors],
+      rejectOnEmpty: true,
+    })
+    console.log(emergency);
+*/
 
 export default router;
