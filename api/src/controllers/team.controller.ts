@@ -50,7 +50,7 @@ router.get('/:id', async (req: Request, res: Response) => {
  * @route POST /api/teams/
  * @group Teams - Operation about teams
  * @param {string} team.body.required
- * @returns {Team} 200 - Update or create a Team
+ * @returns {Array.<Team>} 200 - Updated or created Teams
  * @returns {Error}  default - Unexpected error
  */
 router.post('/', async (req: Request, res: Response) => {
@@ -65,11 +65,11 @@ router.post('/', async (req: Request, res: Response) => {
       result = [await createOrUpdate(payload)];
     }
 
-    const test = await Team.findAll({
-    });
-    console.log(test)
+    if (result.length == 0) {
+      throw new Error("Bad request");
+    }
 
-    emitEvent("onUpdateTeam", result);
+    emitEvent("onUpdateTeams", result);
 
     return res.status(200).send(result);
   } catch (error) {

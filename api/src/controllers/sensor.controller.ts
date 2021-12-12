@@ -50,12 +50,12 @@ router.get('/:id', async (req: Request, res: Response) => {
  * @route POST /api/sensors/
  * @group Sensors - Operation about sensors
  * @param {string} sensor.body.required
- * @returns {Sensor} 200 - Update or create a Sensor
+ * @returns {Array.<Sensor>} 200 - Update or create a Sensor
  * @returns {Error}  default - Unexpected error
  */
 router.post('/', async (req: Request, res: Response) => {
   try {
-    let result;
+    let result: CreateSensorDTO[];
 
     if (Array.isArray(req.body)) {
       const payload:CreateSensorDTO[] = req.body;
@@ -65,7 +65,11 @@ router.post('/', async (req: Request, res: Response) => {
       result = [await createOrUpdate(payload)];
     }
 
-    emitEvent("onUpdateSensor", result);
+    if (result.length == 0) {
+      throw new Error("Bad request");
+    }
+
+    emitEvent("onUpdateSensors", result);
 
     return res.status(200).send(result);
   } catch (error) {

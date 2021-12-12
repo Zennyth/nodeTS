@@ -8,8 +8,10 @@ export default {
     updateEmergencies(state, emergencies) {
       state.emergencies = emergencies || {};
     },
-    SOCKET_onUpdateEmergency(state, updatedEmergency) {
-      Vue.set(state.emergencies, updatedEmergency.id, updatedEmergency);
+    SOCKET_onUpdateEmergencies(state, updatedEmergencies) {
+      updatedEmergencies.forEach(updatedEmergency => {
+        Vue.set(state.emergencies, updatedEmergency.id, updatedEmergency);
+      });
     },
   },
   actions: { 

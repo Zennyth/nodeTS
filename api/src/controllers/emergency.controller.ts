@@ -1,6 +1,6 @@
 import {Router, Request, Response} from 'express';
 
-import {getAll, createOrUpdate, getById, } from "../services/emergency.service";
+import {getAll, createOrUpdate, getById, createOrUpdateRange} from "../services/emergency.service";
 import {CreateEmergencyDTO} from '../db/dto/emergency.dto';
 
 import {emitEvent} from "../modules/websocket.module";
@@ -51,17 +51,28 @@ router.get('/:id', async (req: Request, res: Response) => {
  * @route POST /api/emergencies/
  * @group Emergencies - Operation about emergencies
  * @param {string} sensor.body.required
- * @returns {Emergency} 200 - Update or create an Emergency
+ * @returns {Array.<Emergency>} 200 - Updated or created Emergencies
  * @returns {Error}  default - Unexpected error
  */
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const payload:CreateEmergencyDTO = req.body;
-    const emergency = await createOrUpdate(payload);
+    let result;
 
-    emitEvent("onUpdateEmergency", emergency);
+    if (Array.isArray(req.body)) {
+      const payload:CreateEmergencyDTO[] = req.body;
+      result = await createOrUpdateRange(payload);
+    } else {
+      const payload:CreateEmergencyDTO = req.body;
+      result = [await createOrUpdate(payload)];
+    }
 
-    return res.status(200).send(emergency);
+    if (result.length == 0) {
+      throw new Error("Bad request");
+    }
+
+    emitEvent("onUpdateEmergencies", result);
+
+    return res.status(200).send(result);
   } catch (error) {
     res.status(400).send({
       error

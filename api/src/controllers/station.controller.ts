@@ -46,11 +46,11 @@ router.get('/:id', async (req: Request, res: Response) => {
 });
 
 /**
- * Update or create a Station
+ * Update or create Stations
  * @route POST /api/stations/
  * @group Stations - Operation about stations
  * @param {string} station.body.required
- * @returns {Station} 200 - Update or create a Station
+ * @returns {Array.<Station>} 200 - Updated or created Stations
  * @returns {Error}  default - Unexpected error
  */
 router.post('/', async (req: Request, res: Response) => {
@@ -65,7 +65,11 @@ router.post('/', async (req: Request, res: Response) => {
       result = [await createOrUpdate(payload)];
     }
 
-    emitEvent("onUpdateStation", result);
+    if (result.length == 0) {
+      throw new Error("Bad request");
+    }
+
+    emitEvent("onUpdateStations", result);
 
     return res.status(200).send(result);
   } catch (error) {

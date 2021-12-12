@@ -25,3 +25,14 @@ export const getAll = (filters: GetAllEmergenciesFilters): Promise<EmergencyOupu
 export const getSensors = (id: string): Promise<SensorOuput[]> => {
   return emergencyDal.getSensors(id);
 }
+export const createOrUpdateRange = async (payload: EmergencyInput[]): Promise<EmergencyOuput[]> => {
+  const result: EmergencyOuput[] = [];
+  for(const sensor of payload){
+    try {
+      result.push(await emergencyDal.createOrUpdate(sensor));
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  return result;
+}
