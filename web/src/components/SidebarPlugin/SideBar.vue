@@ -98,7 +98,7 @@
     props: {
       logo: {
         type: String,
-        default: 'img/brand/green.png',
+        default: 'favicon.svg',
         description: 'Sidebar app logo'
       },
       autoClose: {

@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // db
 import init from './db/init.db';
-// init();
+init();
 
 // view
 app.get('/', (req: Request, res: Response) => {

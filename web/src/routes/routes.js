@@ -5,7 +5,7 @@ import NotFound from '@/views/NotFoundPage.vue';
 const routes = [
   {
     path: '/',
-    redirect: 'dashboard',
+    redirect: 'maps',
     component: DashboardLayout,
     meta: {navbarType: 'dark'},
     children: [

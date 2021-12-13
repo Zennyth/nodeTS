@@ -28,7 +28,7 @@
           </b-input-group>
         </b-form-group>
       </b-form>
-      <base-dropdown menu-on-right
+      <!-- <base-dropdown menu-on-right
                      class="nav-item"
                      tag="li"
                      title-tag="a"
@@ -72,7 +72,7 @@
           </b-dropdown-item>
 
         </template>
-      </base-dropdown>
+      </base-dropdown> -->
     </b-navbar-nav>
   </base-nav>
 </template>
