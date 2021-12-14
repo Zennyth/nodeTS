@@ -6,7 +6,7 @@ const dbUser = process.env.DB_USER as string
 const dbDriver = process.env.DB_DRIVER as Dialect
 const dbPassword = process.env.DB_PASSWORD as string
 
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
 let sequelizeConnection: Sequelize;
 if (!isDev) {

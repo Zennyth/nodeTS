@@ -8,7 +8,7 @@ init();
 
 const handleSensors = (sensors: Sensor[]) => {
   send(JSON.stringify(sensors));
-  
+
   // sensors.forEach(sensor => {
   //   send(JSON.stringify(sensor));
   // });
@@ -16,8 +16,10 @@ const handleSensors = (sensors: Sensor[]) => {
 
 onEvent("onSensorsUpdate", handleSensors);
 
+
+
+
 const entry = async () => {
   console.log(await portsAvailable());
 }
-
 entry();
