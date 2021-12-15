@@ -1,8 +1,8 @@
 
 interface SensorAttributes {
   id: string;
-  latitude: number;
-  longitude: number;
+  latitude?: number;
+  longitude?: number;
   intensity: number;
   radius: number;
   emergencyId?: string;
@@ -11,7 +11,6 @@ interface SensorAttributes {
   updatedAt?: Date;
   deletedAt?: Date;
 }
-
 
 /**
  * @typedef Sensor
@@ -23,16 +22,16 @@ interface SensorAttributes {
  */
 class Sensor implements SensorAttributes {
   id: string;
-  latitude: number;
-  longitude: number;
+  latitude?: number;
+  longitude?: number;
   intensity: number;
   radius: number;
-  emergencyId!: string;
+  emergencyId?: string;
 
   // timestamps!
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-  public readonly deletedAt!: Date;
+  public readonly createdAt?: Date;
+  public readonly updatedAt?: Date;
+  public readonly deletedAt?: Date;
 }
 
 export default Sensor;

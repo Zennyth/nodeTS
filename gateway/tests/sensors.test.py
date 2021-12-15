@@ -3,7 +3,7 @@ import uuid
 import json
 
 min_latitude =  45.723967; step_latitude = 0.006; range_latitude = 6
-min_longitude = 4.907738; step_longitude = 0.11/6; range_longitude = 10
+min_longitude = 4.907738; step_longitude = 0.11/6; range_longitude = 1
 
 
 sensors = []
