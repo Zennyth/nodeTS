@@ -65,8 +65,6 @@ const start = async () => {
           dataSent.n += 1;
         }
       }
-
-      
     } catch (error) {
       
     }
