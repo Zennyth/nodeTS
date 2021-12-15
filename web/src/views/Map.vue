@@ -85,6 +85,7 @@
                     <l-popup>
                       <div @click="innerClick">
                         I am a sensor of {{sensor.intensity}}°C
+                        latitude: {{sensor.latitude}}, longitude: {{sensor.longitude}}
                         <p v-show="showParagraph">
                           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
                           sed pretium nisl, ut sagittis sapien. Sed vel sollicitudin nisi.
