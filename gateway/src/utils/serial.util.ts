@@ -11,10 +11,10 @@ export const initUART = async () => {
   const start = new Promise((resolve, reject) => {
     const uart = new SerialPort(process.env.SERIAL_PORT, { baudRate: Number(process.env.SERIAL_BAUDRATE) }, function (err) {
       if (err) {
-        console.log('[SERIAL] Error: ', err.message);
+        // console.log('[SERIAL] Error: ', err.message);
         reject(err);
       } else {
-        console.log('[SERIAL] Connected!');
+        // console.log('[SERIAL] Connected!');
         resolve(uart);
       }
     });
