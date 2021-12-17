@@ -4,6 +4,7 @@ import { ACKs } from './models/ack.model';
 
 import api from "./modules/api.module";
 import gateway from "./modules/gateway.module";
+import {portsAvailable} from "./utils/serial.util"
 
 
 const reset = {
@@ -36,7 +37,8 @@ const start = async () => {
     try {
       timeout();
       const sensors: Sensor[] = JSON.parse(data.toString());
-      api.send(sensors);
+      console.log(sensors)
+      //api.send(sensors);
     } catch (error) {
       
     }
