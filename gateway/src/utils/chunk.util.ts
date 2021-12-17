@@ -1,4 +1,4 @@
-const delimiter = 3;
+const delimiter = 1;
 
 export const explodeChunks = (array: Array<any>): Array<any> => {
   const chunks = [];

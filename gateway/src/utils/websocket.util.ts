@@ -7,7 +7,7 @@ const socket = io.connect(process.env.SERVER_URL, {
 });
 
 socket.on('connect', function (socket) {
-  console.log('[SOCKET] Connected!');
+  //console.log('[SOCKET] Connected!');
 });
 
 export const onEvent = (event, callback) => {

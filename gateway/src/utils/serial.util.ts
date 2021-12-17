@@ -31,6 +31,7 @@ export const portsAvailable = async () => {
 
 export const sendUART = (data: string) => {
   uart.write(`${data}${delimiter}`);
+  console.log(`[SERIAL] Sent: ${data}${delimiter}`)
 }
 
 export const onUART = (event: string, callback: Function) => {
