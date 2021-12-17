@@ -17,6 +17,7 @@ const timeout = () => {
   cTimeout();
   reset.timeout = setTimeout(() => {
     console.log("[RESET]");
+    gateway.send({"cmd": "reset"});
     timeout();
   }, 10*1000);
 }

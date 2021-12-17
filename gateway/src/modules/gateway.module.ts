@@ -10,7 +10,7 @@ export const on = (event: string, callback: Function) => {
   onUART(event, callback);
 }
 
-export const send = (sensors: Sensor[]) => {
+export const send = (sensors: any) => {
   sendUART(JSON.stringify(sensors));
 }
 
