@@ -1,4 +1,4 @@
-import { Sensor } from '../models';
+import { Ack, Sensor } from '../models';
 
 import {sendUART, initUART, onUART} from "../utils/serial.util";
 
@@ -10,7 +10,7 @@ export const on = (event: string, callback: Function) => {
   onUART(event, callback);
 }
 
-export const send = (sensors: any) => {
+export const send = (sensors: Sensor|Ack|Object) => {
   sendUART(JSON.stringify(sensors));
 }
 

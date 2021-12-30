@@ -2,7 +2,7 @@ import requests
 import uuid
 import json
 
-min_latitude =  45.723967; step_latitude = 0.006; range_latitude = 6
+min_latitude =  45.723967; step_latitude = 0.006; range_latitude = 2
 min_longitude = 4.907738; step_longitude = 0.11/6; range_longitude = 1
 
 
@@ -18,7 +18,8 @@ for latitude in range(range_latitude):
         })
 
 
-print(sensors)
+# print(sensors)
 headers = {'content-type': 'application/json', 'x-access-token': 'eb0dfd4f-cdc9-4546-9296-5bcdd69767e6'}
 r = requests.post("http://localhost:3000/api/sensors", json=sensors, headers=headers)
-print(r.text)
+# print(r.text)
+

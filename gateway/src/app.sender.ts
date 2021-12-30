@@ -9,6 +9,7 @@ import {explodeChunks} from "./utils/chunk.util";
 
 import {initLog, logError, logSuccess} from "./utils/log.util";
 initLog("SENDER");
+const LIMIT = Number(process.env.SENDER_LIMIT);
 
 let dataSent = {n: 0, data: null, timeout: null};
 let dataToSend = [];
@@ -42,6 +43,13 @@ const start = async () => {
     }, 2000);
   }
 
+  const sendThroughGateway = (reset: boolean = true) => {
+    gateway.send(dataSent.data);
+    if(reset) dataSent.n = 1;
+    else dataSent.n++;
+    timeout();
+  }
+
   api.on("onUpdateSensors", (sensors: Sensor[]) => {
 
     // reduce size of packets and explode sensors into chunks
@@ -55,11 +63,11 @@ const start = async () => {
       })
     );
     
+    // is dataSent is empty
     if(dataSent.data == null) {
+      // fill up send current sensors
       dataSent.data = chunks.shift();
-      gateway.send(dataSent.data);
-      dataSent.n = 1;
-      timeout();
+      sendThroughGateway();
     }
 
     chunks.forEach(chunk => {
@@ -70,36 +78,31 @@ const start = async () => {
   gateway.on("data", (data: ArrayBuffer) => {
     try {
       const ack: Ack = JSON.parse(data.toString().replace("'", '"')); 
-      console.log("[GATEWAY] ack:", ACKs[ack.ack]);
+      console.log(`[GATEWAY] ack: ${ACKs[ack.ack]} for n: ${dataSent.n}`);
 
       if(ack.ack == ACKs.VALID) {
         cTimeout();
         if(dataToSend.length > 0) {
           dataSent.data = dataToSend.shift();
-          dataSent.n = 1;
-          gateway.send(dataSent.data);
-          timeout();
+          sendThroughGateway();
         } else {
           dataSent.data = null;
         }
       } else {
-        if(dataSent.n >= 10) {
+        if(dataSent.n >= LIMIT) {
+          console.log("[GATEWAY] ack: LIMIT REACHED", LIMIT);
           if(dataToSend.length > 0) {
             dataSent.data = dataToSend.shift();
-            gateway.send(dataSent.data);
-            dataSent.n = 1;
-            timeout();
+            dataSent.n = 0;
           } else {
             dataSent.data = null;
             dataSent.n = 0;
+            cTimeout();
           }
-          console.log("[GATEWAY] ack: LIMIT REACHED", 10)
         }
 
         if(dataSent.data !== null) {
-          gateway.send(dataSent.data);
-          dataSent.n += 1;
-          timeout();
+          sendThroughGateway(false);
         }
       }
     } catch (error) {
