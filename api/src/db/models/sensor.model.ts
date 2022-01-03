@@ -3,10 +3,10 @@ import { DataTypes, Model, Optional } from 'sequelize';
 
 interface SensorAttributes {
   id: string;
-  latitude: number;
-  longitude: number;
+  latitude?: number;
+  longitude?: number;
   intensity: number;
-  radius: number;
+  radius?: number;
   emergencyId?: string;
   
   createdAt?: Date;
@@ -27,10 +27,10 @@ export interface SensorOuput extends Required<SensorAttributes> {}
  */
 class Sensor extends Model<SensorAttributes, SensorInput> implements SensorAttributes {
   id: string;
-  latitude: number;
-  longitude: number;
+  latitude!: number;
+  longitude!: number;
   intensity: number;
-  radius: number;
+  radius!: number;
   emergencyId!: string;
 
   // timestamps!
@@ -46,11 +46,11 @@ Sensor.init({
   },
   latitude: {
     type: DataTypes.NUMBER,
-    allowNull: false
+    allowNull: true
   },
   longitude: {
     type: DataTypes.NUMBER,
-    allowNull: false
+    allowNull: true
   },
   intensity: {
     type: DataTypes.NUMBER,
@@ -58,7 +58,7 @@ Sensor.init({
   },
   radius: {
     type: DataTypes.NUMBER,
-    allowNull: false
+    allowNull: true
   },
   emergencyId: {
     type: DataTypes.STRING,

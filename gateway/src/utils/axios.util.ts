@@ -11,5 +11,5 @@ export const initAxios = () => {
 }
 
 export const post = async (url: string, data: any) => {
-    return await axios.post(url, data);
+    return await rest.post(url, data);
 }

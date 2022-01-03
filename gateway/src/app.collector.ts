@@ -34,14 +34,15 @@ const start = async () => {
     console.log("Can't start the service: ", error);
   }
 
-  gateway.on("data", (data: ArrayBuffer) => {
+  gateway.on("data", async (data: ArrayBuffer) => {
     try {
       //timeout();
       const sensors: Sensor[] = JSON.parse(data.toString());
       listSens = [...listSens, ...sensors];
       console.log(sensors)
       console.log(listSens.length)
-      api.send(sensors);
+      const response = await api.send(sensors);
+      // console.log(response);
     } catch (error) {
       console.log(data.toString(), error);
     }
