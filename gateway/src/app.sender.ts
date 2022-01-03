@@ -18,7 +18,7 @@ import {portsAvailable} from "./utils/serial.util";
 
 const start = async () => {
 
-  // console.log((await portsAvailable()))
+  //console.log((await portsAvailable()))
 
   try {
     await api.init();
@@ -77,8 +77,9 @@ const start = async () => {
 
   gateway.on("data", (data: ArrayBuffer) => {
     try {
-      const ack: Ack = JSON.parse(data.toString().replace("'", '"')); 
+      const ack: Ack = JSON.parse(data.toString().split("'").join('"')); 
       console.log(`[GATEWAY] ack: ${ACKs[ack.ack]} for n: ${dataSent.n}`);
+
 
       if(ack.ack == ACKs.VALID) {
         cTimeout();
@@ -106,7 +107,7 @@ const start = async () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.log(data.toString().split("'").join('"'));
     }
   });
 }
