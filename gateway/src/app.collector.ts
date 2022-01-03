@@ -6,6 +6,7 @@ import api from "./modules/api.module";
 import gateway from "./modules/gateway.module";
 import {portsAvailable} from "./utils/serial.util"
 
+var listSens = []
 
 const reset = {
   timeout: null
@@ -20,7 +21,7 @@ const timeout = () => {
     console.log("[RESET]");
     gateway.send({"cmd": "reset"});
     timeout();
-  }, 10*1000);
+  }, 30*1000);
 }
 
 
@@ -28,19 +29,21 @@ const start = async () => {
   try {
     await api.init();
     await gateway.init();
-    timeout();
+    //timeout();
   } catch (error) {
     console.log("Can't start the service: ", error);
   }
 
   gateway.on("data", (data: ArrayBuffer) => {
     try {
-      timeout();
+      //timeout();
       const sensors: Sensor[] = JSON.parse(data.toString());
+      listSens = [...listSens, ...sensors];
       console.log(sensors)
-      //api.send(sensors);
+      console.log(listSens.length)
+      api.send(sensors);
     } catch (error) {
-      
+      console.log(data.toString(), error);
     }
   });
 }
