@@ -1,3 +1,5 @@
+import { Sensor } from '../models';
+
 const mqtt = require('mqtt');
 const clientId = "clientTest"
 const connectUrl = `mqtt://${process.env.BROKER_URL}`
@@ -19,8 +21,8 @@ export const subscribe = (topic: string) => {
     })
 }
 
-export const publish = (topic: string) => {
-    client.publish(topic, 'nodejs mqtt test', { qos: 0, retain: true }, (error) => {
+export const publish = (topic: string, data: Sensor[]) => {
+    client.publish(topic, data, { qos: 0, retain: true }, (error) => {
         if (error) {
           console.error(error)
         }
