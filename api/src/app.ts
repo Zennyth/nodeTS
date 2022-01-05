@@ -20,15 +20,17 @@ import init from './db/init.db';
 init();
 
 // view
+app.use(express.static(__dirname + '/dist'))
 app.get('/', (req: Request, res: Response) => {
-  res.send('Bonjour le monde !!!');
+  // res.send('Bonjour le monde !!!');
+  res.sendFile(__dirname + '/dist/index.html');
 });
 
 // docs
 import {initSwagger} from "./swagger";
 initSwagger(app, port);
 
-// routes
+// routes for api
 import routes from "./routes/";
 app.use('/api', routes);
 
