@@ -58,12 +58,14 @@ const start = async () => {
         return {
           id: sensor.id,
           intensity: sensor.intensity,
-          radius: sensor.radius
+          radius: sensor.radius,
+          latitude: sensor.latitude,
+          longitude: sensor.longitude,
         }
       })
     );
     
-    // is dataSent is empty
+    // is dataSent empty
     if(dataSent.data == null) {
       // fill up send current sensors
       dataSent.data = chunks.shift();
@@ -113,6 +115,3 @@ const start = async () => {
 }
 
 start();
-
-
-
