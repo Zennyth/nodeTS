@@ -12,7 +12,7 @@ const reset = {
   timeout: null
 }
 
-const topic = '/sensors/all'
+const topic = '/sensors/data'
 
 const cTimeout = () => {
   if(reset.timeout) clearTimeout(reset.timeout);
@@ -56,8 +56,8 @@ const start = async () => {
       listSens = [...listSens, ...sensors];
       console.log(sensors)
       publish(topic, sensors)
-      console.log(listSens.length)
-      const response = await api.send(sensors);
+      //console.log(listSens.length)
+      //const response = await api.send(sensors);
       // console.log(response);
     } catch (error) {
       console.log(data.toString(), error);
