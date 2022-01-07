@@ -4,13 +4,15 @@ import { ACKs } from './models/ack.model';
 
 import api from "./modules/api.module";
 import gateway from "./modules/gateway.module";
-import {portsAvailable} from "./utils/serial.util"
+import {client, subscribe, publish} from "./utils/mqtt.utils";
 
 var listSens = []
 
 const reset = {
   timeout: null
 }
+
+const topic = '/sensors/data'
 
 const cTimeout = () => {
   if(reset.timeout) clearTimeout(reset.timeout);
@@ -34,13 +36,27 @@ const start = async () => {
     console.log("Can't start the service: ", error);
   }
 
+  client.on("connect", () => {
+    console.log(`Connected to broker!`);
+    //subscribe(topic);
+  })
+
+  client.on('error', (error) => {
+    console.log(`Cannot connect to broker: `, error)
+  })
+
+  client.on('message', (topic, payload) => {
+    console.log('Received Message:', topic, payload.toString())
+  })
+
   gateway.on("data", async (data: ArrayBuffer) => {
     try {
       //timeout();
       const sensors: Sensor[] = JSON.parse(data.toString());
       listSens = [...listSens, ...sensors];
       console.log(sensors)
-      console.log(listSens.length)
+      publish(topic, sensors)
+      //console.log(listSens.length)
       const response = await api.send(sensors);
       // console.log(response);
     } catch (error) {

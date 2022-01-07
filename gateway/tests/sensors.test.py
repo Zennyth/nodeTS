@@ -13,7 +13,7 @@ for latitude in range(range_latitude):
             "id": str(uuid.uuid4()),
             "latitude": min_latitude + latitude * step_latitude,
             "longitude": min_longitude + longitude * step_longitude,
-            "radius": 0.01929018172830706 / 2,
+            "radius": 1.401662 + 0.1 / 2,
             "intensity": 0
         })
 
