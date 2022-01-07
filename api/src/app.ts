@@ -39,6 +39,6 @@ import {initWS} from "./modules/websocket.module";
 const server = require('http').createServer(app);
 initWS(server);
 
-server.listen(port, () => {
+server.listen(port, '0.0.0.0', () => {
   return console.log(`server is listening on http://localhost:${port}`);
 });
