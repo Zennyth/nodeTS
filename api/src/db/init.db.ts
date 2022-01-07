@@ -8,10 +8,10 @@ const min_latitude: number =  45.723967; const step_latitude: number = 0.06 / 6.
 const min_longitude: number = 4.797831; const step_longitude: number = 0.011; const range_longitude: number = 10;
 
 const dbInit = async () => {
-  Emergency.sync({ force: isDev });
-  Sensor.sync({ force: isDev });
-  Station.sync({ force: isDev });
-  Team.sync({ force: isDev });
+  await Emergency.sync({ force: isDev });
+  await Sensor.sync({ force: isDev });
+  await Station.sync({ force: isDev });
+  await Team.sync({ force: isDev });
 
   try {
     let sensors: CreateSensorDTO[] = [];
@@ -26,11 +26,10 @@ const dbInit = async () => {
           "intensity" : 0
         }
         id++;
-        console.log(sensors);
         sensors.push(sensor);
-        let result: CreateSensorDTO[] = await createOrUpdateRange(sensors);
       }
     }
+    let result: CreateSensorDTO[] = await createOrUpdateRange(sensors);
 
 
 
