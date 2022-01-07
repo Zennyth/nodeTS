@@ -15,7 +15,7 @@ const dbInit = async () => {
 
   try {
     let sensors: CreateSensorDTO[] = [];
-    let id = 0
+    let id = 0;
     for(let latitude = 0; latitude < range_latitude; latitude++) {
       for(let longitude = 0; longitude < range_longitude; longitude++) {
         let sensor : CreateSensorDTO = {
