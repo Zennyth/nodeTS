@@ -59,8 +59,8 @@ const start = async () => {
           id: sensor.id,
           intensity: sensor.intensity,
           radius: sensor.radius,
-          latitude: sensor.latitude,
-          longitude: sensor.longitude,
+          // latitude: sensor.latitude,
+          // longitude: sensor.longitude,
         }
       })
     );
