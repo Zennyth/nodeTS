@@ -58,8 +58,6 @@ router.post('/', grantAccess(Roles.API_W), async (req: Request, res: Response) =
   try {
     let result: CreateSensorDTO[];
 
-    console.log(req.body)
-
     if (Array.isArray(req.body)) {
       const payload:CreateSensorDTO[] = req.body;
       result = await createOrUpdateRange(payload);

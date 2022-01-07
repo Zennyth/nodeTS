@@ -19,17 +19,21 @@ const initWS = (httpServer) => {
       next(new Error('Authentication error'));
     }    
   })
-  .on('connection', function(socket) {
-  });
 
   io.on("connection", (socket) => {
     console.log(socket.id + " is connected !");
+
+    socket.on('disconnect', () => {
+      console.log(socket.id + ' got disconnected !');
+    });
   });
 }
 
-const emitEvent = (event, data) => {
-  console.log("Dispatch event: ", event);
+const emitEvent = async (event, data) => {
   io.emit(event, data);
+  console.log("Dispatch event: ", event);
+  const users = await io.allSockets();
+  console.log("for : ", users);
 }
 
 export {
