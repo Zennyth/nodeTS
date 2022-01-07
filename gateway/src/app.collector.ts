@@ -38,7 +38,7 @@ const start = async () => {
 
   client.on("connect", () => {
     console.log(`Connected to broker!`);
-    subscribe(topic);
+    //subscribe(topic);
   })
 
   client.on('error', (error) => {
@@ -57,7 +57,7 @@ const start = async () => {
       console.log(sensors)
       publish(topic, sensors)
       //console.log(listSens.length)
-      //const response = await api.send(sensors);
+      const response = await api.send(sensors);
       // console.log(response);
     } catch (error) {
       console.log(data.toString(), error);
