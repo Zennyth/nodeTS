@@ -2,7 +2,7 @@ import requests
 import uuid
 import json
 
-min_latitude =  45.723967; step_latitude = 0.06 / 6.0; range_latitude = 1
+min_latitude =  45.723967; step_latitude = 0.06 / 6.0; range_latitude = 6
 min_longitude = 4.797831; step_longitude = 0.011; range_longitude = 10
 
 
