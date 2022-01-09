@@ -10,7 +10,11 @@ export default {
     },
     SOCKET_onUpdateEmergencies(state, updatedEmergencies) {
       updatedEmergencies.forEach(updatedEmergency => {
-        Vue.set(state.emergencies, updatedEmergency.id, updatedEmergency);
+        if(updatedEmergency.intensity == 0) {
+            Vue.delete(state.emergencies, updatedEmergency.id);
+        } else {
+          Vue.set(state.emergencies, updatedEmergency.id, updatedEmergency);
+        }
       });
     },
   },

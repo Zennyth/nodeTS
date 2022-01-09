@@ -7,15 +7,16 @@ min_longitude = 4.797831; step_longitude = 0.011; range_longitude = 10
 
 
 sensors = []
-for latitude in range(range_latitude):
-    for longitude in range(range_longitude):
-        sensors.append({
-            "id": str(uuid.uuid4()),
-            "latitude": min_latitude + latitude * step_latitude,
-            "longitude": min_longitude + longitude * step_longitude,
-            "radius": 1.401662 + 0.1 / 2,
-            "intensity": 0
-        })
+
+## Simualtion d'un feux
+# sensors.append({"id":'38', "latitude":45.753967, "longitude": 4.8858310000000005, "intensity":29, "radius":0.00964509086415353})
+# sensors.append({"id":'47', "latitude":45.763967, "longitude": 4.874831, "intensity":8, "radius":0.00964509086415353})
+# sensors.append({"id":'48', "latitude":45.763967, "longitude": 4.8858310000000005, "intensity":90, "radius":0.00964509086415353})
+
+## Arret d'un feu
+sensors.append({"id":'38', "latitude":45.753967, "longitude": 4.8858310000000005, "intensity":0, "radius":0.00964509086415353})
+sensors.append({"id":'47', "latitude":45.763967, "longitude": 4.874831, "intensity":0, "radius":0.00964509086415353})
+sensors.append({"id":'48', "latitude":45.763967, "longitude": 4.8858310000000005, "intensity":0, "radius":0.00964509086415353})
 
 
 # print(sensors)

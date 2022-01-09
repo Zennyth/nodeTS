@@ -9,6 +9,7 @@ interface StationAttributes {
   name: string;
   street: string;
   cp: number;
+  radius: number;
   
   createdAt?: Date;
   updatedAt?: Date;
@@ -34,6 +35,7 @@ class Station extends Model<StationAttributes, StationInput> implements StationA
   name: string;
   street: string;
   cp: number;
+  radius: number;
 
   // timestamps!
   public readonly createdAt!: Date;
@@ -78,6 +80,10 @@ Station.init({
     allowNull: false
   },
   cp: {
+    type: DataTypes.NUMBER,
+    allowNull: false,
+  },
+  radius: {
     type: DataTypes.NUMBER,
     allowNull: false,
   }

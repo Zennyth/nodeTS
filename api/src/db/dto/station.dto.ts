@@ -7,6 +7,7 @@ export type CreateStationDTO = {
   name: string;
   street: string;
   cp: number;
+  radius: number;
 }
 
 export type UpdateStationDTO = Optional<CreateStationDTO, 'id'>

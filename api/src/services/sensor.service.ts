@@ -32,3 +32,7 @@ export const createOrUpdateRange = async (payload: SensorInput[]): Promise<Senso
   }
   return result;
 }
+
+export const getAllByEmergencyId = (emergencyId: string): Promise<SensorOuput[]> => {
+    return sensorDal.getAllByEmergencyId(emergencyId);
+}

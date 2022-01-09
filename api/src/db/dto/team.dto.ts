@@ -5,7 +5,6 @@ export type CreateTeamDTO = {
   latitude: number;
   longitude: number;
   level: number;
-  isHandlingEmergency: boolean;
   stationId: string;
   emergencyId?: string;
 }

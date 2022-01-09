@@ -6,6 +6,7 @@ import {CreateSensorDTO} from '../db/dto/sensor.dto';
 import {emitEvent} from "../modules/websocket.module";
 
 import { grantAccess, Roles } from '../middlewares/access.middleware';
+import { Sensor } from '../db/models';
 
 const router = Router();
 
@@ -47,6 +48,26 @@ router.get('/:id', async (req: Request, res: Response) => {
 });
 
 /**
+ * reset the sensor related to the id
+ * @route GET /api/sensors/
+ * @group Sensors - Operation about sensors
+ * @param {string} id.query.required
+ * @returns {Sensor} 200 - Sensor related to the id
+ * @returns {Error}  default - Unexpected error
+ */
+ router.get('/reset/:id', async (req: Request, res: Response) => {
+    try {
+      const updatedSensors = await Sensor.update({ emergencyId: null}, { where: { id: req.params.id }});
+      const sensor = await getById(req.params.id);
+      res.status(200).send(sensor);
+    } catch (error) {
+      res.status(400).send({
+        error
+      })
+    }
+  });
+
+/**
  * Update or create a Sensor
  * @route POST /api/sensors/
  * @group Sensors - Operation about sensors
@@ -57,17 +78,17 @@ router.get('/:id', async (req: Request, res: Response) => {
 router.post('/', grantAccess(Roles.API_W), async (req: Request, res: Response) => {
   try {
     let result: CreateSensorDTO[];
-
+    
     if (Array.isArray(req.body)) {
-      const payload:CreateSensorDTO[] = req.body;
-      result = await createOrUpdateRange(payload);
+        const payload:CreateSensorDTO[] = req.body;
+        result = await createOrUpdateRange(payload);
     } else {
-      const payload:CreateSensorDTO = req.body;
-      result = [await createOrUpdate(payload)];
+        const payload:CreateSensorDTO = req.body;
+        result = [await createOrUpdate(payload)];
     }
-
+    
     if (result.length == 0) {
-      throw new Error("Bad request");
+        throw new Error("Bad request");
     }
 
     emitEvent("onUpdateSensors", result);

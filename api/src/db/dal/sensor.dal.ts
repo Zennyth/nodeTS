@@ -57,3 +57,16 @@ export const getAll = async (filters?: GetAllSensorsFilters): Promise<SensorOupu
         ...((filters?.isDeleted || filters?.includeDeleted) && {paranoid: true})
     })
 }
+
+export const getAllByEmergencyId = async (emergencyId: string): Promise<SensorOuput[]> => {
+    const sensors = await Sensor.findAll({
+        where: {
+            emergencyId: emergencyId
+        }
+    })
+    if (!sensors) {
+        // @todo throw custom error
+        throw new Error('not found')
+    }
+    return sensors;
+}

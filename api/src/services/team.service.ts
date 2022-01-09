@@ -32,3 +32,6 @@ export const createOrUpdateRange = async (payload: TeamInput[]): Promise<TeamOup
   }
   return result;
 }
+export const getAllByEmergencyId = (emergencyId: string): Promise<TeamOuput[]> => {
+    return teamDal.getAllByEmergencyId(emergencyId);
+}

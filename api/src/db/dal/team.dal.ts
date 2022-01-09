@@ -57,3 +57,16 @@ export const getAll = async (filters?: GetAllTeamsFilters): Promise<TeamOuput[]>
         ...((filters?.isDeleted || filters?.includeDeleted) && {paranoid: true})
     })
 }
+
+export const getAllByEmergencyId = async (emergencyId: string): Promise<TeamOuput[]> => {
+    const teams = await Team.findAll({
+        where: {
+            emergencyId: emergencyId
+        }
+    })
+    if (!teams) {
+        // @todo throw custom error
+        throw new Error('not found')
+    }
+    return teams;
+}

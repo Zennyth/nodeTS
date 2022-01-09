@@ -1,6 +1,6 @@
 import {Router, Request, Response} from 'express';
 
-import {getAll, createOrUpdate, getById, createOrUpdateRange, } from "../services/team.service";
+import {getAll, createOrUpdate, getById, createOrUpdateRange, getAllByEmergencyId, } from "../services/team.service";
 import {CreateTeamDTO} from '../db/dto/team.dto';
 
 import {emitEvent} from "../modules/websocket.module";
@@ -78,6 +78,45 @@ router.post('/', grantAccess(Roles.API_W), async (req: Request, res: Response) =
       error
     })
   }
+});
+
+/**
+ * Reset the team related to the id
+ * @route GET /api/teams/
+ * @group Sensors - Operation about team
+ * @param {string} id.query.required
+ * @returns {Team} 200 - Reset the team related to the id
+ * @returns {Error}  default - Unexpected error
+ */
+ router.get('/reset/:id', async (req: Request, res: Response) => {
+    try {
+      const updatedSensors = await Team.update({ emergencyId: null}, { where: { id: req.params.id }});
+      const team = await getById(req.params.id);
+      res.status(200).send(team);
+    } catch (error) {
+      res.status(400).send({
+        error
+      })
+    }
+  });
+
+/**
+ * Team related to the id
+ * @route GET /api/teams/emergency
+ * @group Teams - Operation about teams
+ * @param {string} id.query.required
+ * @returns {Array.<Team>} 200 - Team related to the id
+ * @returns {Error}  default - Unexpected error
+ */
+ router.get('/emergency/:id', async (req: Request, res: Response) => {
+    try {
+      const teams = await getAllByEmergencyId(req.params.id);
+      res.status(200).send(teams);
+    } catch (error) {
+      res.status(400).send({
+        error
+      })
+    }
 });
 
 export default router;

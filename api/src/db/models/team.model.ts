@@ -6,7 +6,6 @@ interface TeamAttributes {
   latitude: number;
   longitude: number;
   level: number;
-  isHandlingEmergency: boolean;
   stationId: string;
   emergencyId?: string;
   
@@ -24,7 +23,6 @@ export interface TeamOuput extends Required<TeamAttributes> {}
  * @property {number} latitude.required - - eg: 45.764043
  * @property {number} longitude.required - - eg: 4.835659
  * @property {number} level.required - - eg: 3
- * @property {boolean} isHandlingEmergency.required - - eg: false
  * @property {string} stationId.required - - eg: fd297b1c-dfa0-4bcb-8a86-266bbbe00371
  * @property {string} emergencyId - - eg: fd297b1c-dfa0-4bcb-8a86-266bbbe00371
  */
@@ -33,7 +31,6 @@ class Team extends Model<TeamAttributes, TeamInput> implements TeamAttributes {
   latitude: number;
   longitude: number;
   level: number;
-  isHandlingEmergency: boolean;
   stationId!: string;
   emergencyId!: string;
 
@@ -58,10 +55,6 @@ Team.init({
   },
   level: {
     type: DataTypes.NUMBER,
-    allowNull: false
-  },
-  isHandlingEmergency: {
-    type: DataTypes.BOOLEAN,
     allowNull: false
   },
   stationId: {

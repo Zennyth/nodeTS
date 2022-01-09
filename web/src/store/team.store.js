@@ -8,7 +8,7 @@ export default {
     updateTeams(state, teams) {
       state.teams = teams || {};
     },
-    SOCKET_onUpdateteams(state, updatedTeams) {
+    SOCKET_onUpdateTeams(state, updatedTeams) {
       updatedTeams.forEach(updatedTeam => {
         Vue.set(state.teams, updatedTeam.id, updatedTeam);
       })

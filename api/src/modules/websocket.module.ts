@@ -33,7 +33,7 @@ const emitEvent = async (event, data) => {
   io.emit(event, data);
   console.log("Dispatch event: ", event);
   const users = await io.allSockets();
-  console.log("for : ", users);
+  // console.log("for : ", users);
 }
 
 export {
