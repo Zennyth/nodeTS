@@ -12,6 +12,7 @@
 
             <template slot="footer">
               <b-button variant="info" style="height: 60%;" class="bg-gradient-info" @click="hideSensors = !hideSensors">{{ hideSensors ? 'show' : 'hide'}} sensors</b-button>
+              <b-button variant="info" style="height: 60%;" class="bg-gradient-info" @click="hideSensorsRadius = !hideSensorsRadius">{{ hideSensorsRadius ? 'show' : 'hide'}} range</b-button>
             </template>
           </stats-card>
         </b-col>
@@ -83,14 +84,27 @@
                     :icon="icons.sensor"
                   >
                     <l-popup>
-                      <div @click="innerClick">
-                        I am a sensor of {{sensor.intensity}}°C
+                      <div >
+                        I am a sensor of {{sensor.intensity}}°C<br>
                         latitude: {{sensor.latitude}}, longitude: {{sensor.longitude}}
-                        <p v-show="showParagraph">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                          sed pretium nisl, ut sagittis sapien. Sed vel sollicitudin nisi.
-                          Donec finibus semper metus id malesuada.
-                        </p>
+                      </div>
+                    </l-popup>
+                  </l-marker>
+                </l-layer-group>
+                <l-layer-group 
+                  ref="sensor_radius"
+                  :visible="!hideSensorsRadius"
+                >
+                  <l-marker
+                    v-for="[id, sensor] in Object.entries($store.state.sensor.sensors)"
+                    :key="id"
+                    :lat-lng="computeLocation(sensor)" 
+                    :icon="sensor_radius"
+                  >
+                    <l-popup>
+                      <div >
+                        I am a sensor of {{sensor.intensity}}°C<br>
+                        latitude: {{sensor.latitude}}, longitude: {{sensor.longitude}}
                       </div>
                     </l-popup>
                   </l-marker>
@@ -105,16 +119,6 @@
                     :lat-lng="computeLocation(emergency)" 
                     :icon="icons.fire"
                   >
-                    <l-popup>
-                      <div @click="innerClick">
-                        I am an emergency of {{emergency.intensity}} intensity
-                        <p v-show="showParagraph">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                          sed pretium nisl, ut sagittis sapien. Sed vel sollicitudin nisi.
-                          Donec finibus semper metus id malesuada.
-                        </p>
-                      </div>
-                    </l-popup>
                   </l-marker>
                 </l-layer-group>
                 <l-layer-group 
@@ -128,14 +132,9 @@
                     :icon="icons.team"
                   >
                     <l-popup>
-                      <div @click="innerClick">
+                      <div >
                         I am an emergency handler
                         latitude: {{team.latitude}}, longitude: {{team.longitude}}
-                        <p v-show="showParagraph">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                          sed pretium nisl, ut sagittis sapien. Sed vel sollicitudin nisi.
-                          Donec finibus semper metus id malesuada.
-                        </p>
                       </div>
                     </l-popup>
                   </l-marker>
@@ -151,13 +150,8 @@
                     :icon="icons.station"
                   >
                     <l-popup>
-                      <div @click="innerClick">
-                        I a station
-                        <p v-show="showParagraph">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                          sed pretium nisl, ut sagittis sapien. Sed vel sollicitudin nisi.
-                          Donec finibus semper metus id malesuada.
-                        </p>
+                      <div >
+                        I'm a station
                       </div>
                     </l-popup>
                   </l-marker>
@@ -181,17 +175,18 @@
   export default {
     data() {
       return {
-        zoom: 13,
+        zoom: 14,
         center: latLng(45.764043,  4.835659),
         url: 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png',
         attribution: '',
-        currentZoom: 11.5,
+        currentZoom: 14,
         showParagraph: false,
         mapOptions: {
           zoomSnap: 0.5
         },
         showMap: true,
         hideSensors: false,
+        hideSensorsRadius: false,
         hideEmergencies: false,
         hideTeams: false,
         hideStations: true,
@@ -204,7 +199,12 @@
           sensor: icon({
             iconUrl: require("@/../public/img/icons/map/sensor.png"),
             iconSize: [42, 32],
-            iconAnchor: [21, 0]
+            iconAnchor: [21, 16]
+          }),
+          sensor_radius: icon({
+            iconUrl: require("@/../public/img/icons/map/sensor_radius.png"),
+            iconSize: [100, 100],
+            iconAnchor: [50, 50]
           }),
           team: icon({
             iconUrl: require("@/../public/img/icons/map/team.png"),
@@ -226,6 +226,21 @@
       LPopup,
       LTooltip,
       LLayerGroup,
+    },
+    computed: {
+      sensor_radius() {
+        return icon({
+          iconUrl: require("@/../public/img/icons/map/sensor_radius.png"),
+          iconSize: [this.size, this.size],
+          iconAnchor: [this.anchor, this.anchor]
+        });
+      },
+      size() {
+        return 130 * Math.pow(2, this.currentZoom - 13);
+      },
+      anchor() {
+        return this.size / 2;
+      }
     },
     methods: {
       zoomUpdate(zoom) {

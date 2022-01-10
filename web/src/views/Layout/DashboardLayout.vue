@@ -3,22 +3,22 @@
     <notifications></notifications>
     <side-bar :type="'dark'">
       <template slot="links">
-        <sidebar-item
+        <!-- <sidebar-item
           :link="{
             name: 'Dashboard',
             path: '/dashboard',
             icon: 'ni ni-tv-2 text-primary',
           }"
         >
-        </sidebar-item>
+        </sidebar-item> -->
 
-        <sidebar-item
+        <!-- <sidebar-item
               :link="{
                 name: 'Maps',
                 path: '/maps',
                 icon: 'ni ni-pin-3 text-orange'
               }">
-        </sidebar-item>
+        </sidebar-item> -->
       </template>
     </side-bar>
     <div class="main-content">

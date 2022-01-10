@@ -24,31 +24,34 @@ const dbInit = async () => {
   await Station.sync({ force: isDev });
   await Team.sync({ force: isDev });
 
-  // Init stations and teams
-  try {
-    const station: CreateStationDTO = {
-        id: uuid.v4(),
-        latitude: 45.723967 + (step_latitude * (range_latitude - 1) / 2),
-        longitude: 4.797831 + (step_longitude * (range_longitude - 1) / 2),
-        name: 'Station de test',
-        street: 'XXXXX-XXXXX',
-        cp: 5,
-        radius: 0.01929018172830706 * 10
-    };
-    createOrUpdate(station);
-
-    const teams: CreateTeamDTO[] = [];
-    teams.push({
-        id: uuid.v4(),
-        latitude: station.latitude,
-        longitude: station.longitude,
-        level: 10,
-        stationId: station.id,
-    });
-    teamService.createOrUpdateRange(teams);
-  } catch (error) {
-    console.log(error);
+  if(process.env.MODE == "emergency") {
+      // Init stations and teams
+      try {
+        const station: CreateStationDTO = {
+            id: uuid.v4(),
+            latitude: 45.723967 + (step_latitude * (range_latitude - 1) / 2),
+            longitude: 4.797831 + (step_longitude * (range_longitude - 1) / 2),
+            name: 'Station de test',
+            street: 'XXXXX-XXXXX',
+            cp: 5,
+            radius: 0.01929018172830706 * 10
+        };
+        createOrUpdate(station);
+    
+        const teams: CreateTeamDTO[] = [];
+        teams.push({
+            id: uuid.v4(),
+            latitude: station.latitude,
+            longitude: station.longitude,
+            level: 10,
+            stationId: station.id,
+        });
+        teamService.createOrUpdateRange(teams);
+      } catch (error) {
+        console.log(error);
+      }
   }
+
 
 
   // Init sensors
