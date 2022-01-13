@@ -12,7 +12,7 @@
 
             <template slot="footer">
               <b-button variant="info" style="height: 60%;" class="bg-gradient-info" @click="hideSensors = !hideSensors">{{ hideSensors ? 'show' : 'hide'}} sensors</b-button>
-              <b-button variant="info" style="height: 60%;" class="bg-gradient-info" @click="hideSensorsRadius = !hideSensorsRadius">{{ hideSensorsRadius ? 'show' : 'hide'}} range</b-button>
+              <!-- <b-button variant="info" style="height: 60%;" class="bg-gradient-info" @click="hideSensorsRadius = !hideSensorsRadius">{{ hideSensorsRadius ? 'show' : 'hide'}} range</b-button> -->
             </template>
           </stats-card>
         </b-col>
@@ -91,7 +91,7 @@
                     </l-popup>
                   </l-marker>
                 </l-layer-group>
-                <l-layer-group 
+                <!-- <l-layer-group 
                   ref="sensor_radius"
                   :visible="!hideSensorsRadius"
                 >
@@ -108,7 +108,7 @@
                       </div>
                     </l-popup>
                   </l-marker>
-                </l-layer-group>
+                </l-layer-group> -->
                 <l-layer-group 
                   ref="emergencies"
                   :visible="!hideEmergencies"
