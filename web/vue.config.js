@@ -8,7 +8,7 @@ module.exports = {
   lintOnSave: true,
   devServer: {
     //proxy: "http://sw-bot.mathis-figuet.com",
-    proxy: "http://localhost:3000",
+    proxy: "http://localhost:3100",
     //port: "3001"
   },
   configureWebpack: {
